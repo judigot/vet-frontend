@@ -3,7 +3,6 @@ import '@/styles/scss/main.scss';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
 
-// Define the available pages and their components
 const pages = {
   // Add more pages here as needed
     login: Login,
