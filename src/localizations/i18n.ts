@@ -12,8 +12,8 @@ const resources = {
   },
 };
 
-i18n
-  .use(initReactI18next) // Passes i18n instance to react-i18next
+void i18n
+  .use(initReactI18next) // Pass i18n instance to react-i18next
   .init({
     resources,
     lng: 'English', // Default language

@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
-const Languages = {
+export const Languages = {
   ENGLISH: 'English',
   JAPANESE: 'Japanese',
 } as const;
 
-type Language = (typeof Languages)[keyof typeof Languages];
+export type Language = (typeof Languages)[keyof typeof Languages]; // Export the Language type
 
 interface IApplicationSettingsStore {
   selectedLanguage: Language;
@@ -14,7 +14,7 @@ interface IApplicationSettingsStore {
 
 export const useApplicationSettingsStore = create<IApplicationSettingsStore>()(
   (set) => ({
-    selectedLanguage: Languages.ENGLISH,
+    selectedLanguage: Languages.ENGLISH, // Default language
     setLanguage: (language: Language) => {
       set({ selectedLanguage: language });
     },

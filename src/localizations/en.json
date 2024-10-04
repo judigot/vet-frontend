@@ -1,5 +1,16 @@
 {
   "login": "Login",
   "register": "Register",
-  "welcomeMessage": "Welcome to our application!"
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "enterEmail": "Enter your email",
+  "enterPassword": "Enter your password",
+  "enterName": "Enter your name",
+  "confirmPasswordPlaceholder": "Confirm your password",
+  "submit": "Submit",
+  "pages": "Pages",
+  "selectLanguage": "Select Language",
+  "passwordMismatch": "Passwords do not match!"
 }

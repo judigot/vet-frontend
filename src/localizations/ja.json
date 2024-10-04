@@ -1,5 +1,16 @@
 {
   "login": "ログイン",
   "register": "登録",
-  "welcomeMessage": "私たちのアプリケーションへようこそ！"
+  "name": "名前",
+  "email": "メールアドレス",
+  "password": "パスワード",
+  "confirmPassword": "パスワードの確認",
+  "enterEmail": "メールアドレスを入力してください",
+  "enterPassword": "パスワードを入力してください",
+  "enterName": "名前を入力してください",
+  "confirmPasswordPlaceholder": "パスワードの確認",
+  "submit": "送信",
+  "pages": "ページ",
+  "selectLanguage": "言語を選択",
+  "passwordMismatch": "パスワードが一致しません！"
 }
