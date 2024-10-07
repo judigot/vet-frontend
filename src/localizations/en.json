@@ -13,5 +13,6 @@
   "pages": "Pages",
   "selectLanguage": "Select Language",
   "passwordMismatch": "Passwords do not match!",
-  "appointments": "Appointments"
+  "appointments": "Appointments",
+  "reminders": "Reminders" 
 }

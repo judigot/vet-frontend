@@ -13,5 +13,6 @@
   "pages": "ページ",
   "selectLanguage": "言語を選択",
   "passwordMismatch": "パスワードが一致しません！",
-  "appointments": "予約管理"
+  "appointments": "予約管理",
+  "reminders": "リンマインド"
 }
