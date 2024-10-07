@@ -9,7 +9,6 @@ import {
   Languages,
 } from '@/useApplicationSettingsStore';
 
-// Define the pages object
 const pages = {
   login: Login,
   register: Register,
@@ -17,17 +16,17 @@ const pages = {
 
 type PageKey = keyof typeof pages;
 
-function isKeyOf<T extends object>(
-  obj: T,
-  key: string,
-): key is Extract<keyof T, string> {
-  return key in obj;
-}
-
 function App() {
   const [currentPage, setCurrentPage] = useState<PageKey>('login');
   const { selectedLanguage, setLanguage } = useApplicationSettingsStore();
   const { t } = useTranslation(); // useTranslation hook from i18next
+
+  const isKeyOf = <T extends object>(
+    obj: T,
+    key: string,
+  ): key is Extract<keyof T, string> => {
+    return key in obj;
+  };
 
   const handleNavigation = (page: PageKey) => {
     setCurrentPage(page);
