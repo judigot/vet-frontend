@@ -1,14 +1,18 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from '@/localizations/en.json';
+import enAppointments from '@/localizations/en-Appointments.json';
+import enReminders from '@/localizations/en-Reminders.json';
 import ja from '@/localizations/ja.json';
+import jaAppointments from '@/localizations/ja-Appointments.json';
+import jaReminders from '@/localizations/ja-Reminders.json';
 
 const resources = {
   English: {
-    translation: en,
+    translation: {...en, ...enAppointments, ...enReminders},
   },
   Japanese: {
-    translation: ja,
+    translation: {...ja, ...jaAppointments, ...jaReminders},
   },
 };
 

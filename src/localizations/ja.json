@@ -12,7 +12,5 @@
   "submit": "送信",
   "pages": "ページ",
   "selectLanguage": "言語を選択",
-  "passwordMismatch": "パスワードが一致しません！",
-  "appointments": "予約管理",
-  "reminders": "リンマインド"
+  "passwordMismatch": "パスワードが一致しません！"
 }
