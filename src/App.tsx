@@ -3,15 +3,18 @@ import '@/styles/scss/main.scss';
 import i18n from 'i18next';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
+import Appointments from '@/components/Appointments';
 import { useTranslation } from 'react-i18next';
 import {
   useApplicationSettingsStore,
   Languages,
 } from '@/useApplicationSettingsStore';
 
+
 const pages = {
   login: Login,
   register: Register,
+  appointments: Appointments,
 } as const;
 
 type PageKey = keyof typeof pages;

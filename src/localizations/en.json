@@ -12,5 +12,6 @@
   "submit": "Submit",
   "pages": "Pages",
   "selectLanguage": "Select Language",
-  "passwordMismatch": "Passwords do not match!"
+  "passwordMismatch": "Passwords do not match!",
+  "appointments": "Appointments"
 }

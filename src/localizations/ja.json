@@ -12,5 +12,6 @@
   "submit": "送信",
   "pages": "ページ",
   "selectLanguage": "言語を選択",
-  "passwordMismatch": "パスワードが一致しません！"
+  "passwordMismatch": "パスワードが一致しません！",
+  "appointments": "予約管理"
 }
