@@ -1,3 +1,8 @@
 {
-  "appointments": "Appointments"
+  "appointments": "Appointments",
+  "createAppointment": "",
+  "new_appointment": "Create Appointment",
+  "appointment_date": "Date",
+  "save_changes": "Add"
+  
 }

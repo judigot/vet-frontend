@@ -10,6 +10,7 @@ import {
   useApplicationSettingsStore,
   Languages,
 } from '@/useApplicationSettingsStore';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const pages = {
