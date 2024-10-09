@@ -2,21 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { readAppointment } from '@/api/appointment/read-appointment';
+import { IAppointment } from '@/interfaces/IAppointment';
 // import { response } from 'express';
 
-interface Appointment {
-  appointment_id: number;
-  pet_id: number;
-  vet_id: number;
-  appointment_date: string;
-  status: string;
-  notes: string;
-}
-
-
-
 const Appointments: React.FC = () => {
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [appointments, setAppointments] = useState<IAppointment[] | undefined>(
+    undefined,
+  );
   const [show, setShowModal] = useState(false);
   const [newAppointment, setNewAppointment] = useState({
     pet_id: '',
@@ -24,41 +17,51 @@ const Appointments: React.FC = () => {
     appointment_date: '',
     status: '',
     notes: '',
-  })
+  });
   const { t } = useTranslation(); // Translation hook
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const handleShow = () => {
+    setShowModal(true);
+  };
+  const handleClose = () => {
+    setShowModal(false);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewAppointment({
       ...newAppointment,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    axios.post('/api/appointments', newAppointment)
-      .then(response => {
-        setAppointments([...appointments, response.data]); //Add NewAppointments
+    axios
+      .post('/api/appointments', newAppointment)
+      .then((_response) => {
+        // setAppointments([...appointments, response.data]); //Add NewAppointments
         handleClose(); //Close Modal
       })
-      .catch(error => console.error("Error creating appointment: ", error));
-      
+      .catch((error: unknown) => {
+        console.error('Error creating appointment: ', error);
+      });
   };
 
-
   useEffect(() => {
-    axios.get('/api/appointments')
-      .then(response => setAppointments(response.data))
-      .catch(error => console.error("Error fetching appointments: ", error));
-
+    readAppointment()
+      .then((response) => {
+        if (response !== null) {
+          setAppointments(response);
+        }
+      })
+      .catch((error: unknown) => {
+        console.error('Error fetching appointments: ', error);
+      });
   }, []);
 
-  return(
+  return (
     <div>
-      <h1 className='text-3xl font-bold'>{t('appointments')}</h1>
+      <h1 className="text-3xl font-bold">{t('appointments')}</h1>
       {/* <ul>
         {appointments.map(appointment => (
           <li key={appointment.appointment_id}>
@@ -136,8 +139,46 @@ const Appointments: React.FC = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <br />
+      {appointments && (
+        <div className="appointments-container p-6 bg-white shadow-md rounded-lg">
+          <h1 className="text-2xl font-bold mb-4">Appointments</h1>
+          {appointments.length > 0 ? (
+            <table className="min-w-full bg-gray-100 rounded-lg">
+              <thead>
+                <tr className="bg-gray-200 text-gray-700 text-left">
+                  <th className="py-3 px-4">Appointment ID</th>
+                  <th className="py-3 px-4">Pet ID</th>
+                  <th className="py-3 px-4">Vet ID</th>
+                  <th className="py-3 px-4">Appointment Date</th>
+                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3 px-4">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {appointments.map((appointment) => (
+                  <tr
+                    key={appointment.appointment_id}
+                    className="border-b hover:bg-gray-50"
+                  >
+                    <td className="py-3 px-4">{appointment.appointment_id}</td>
+                    <td className="py-3 px-4">{appointment.pet_id}</td>
+                    <td className="py-3 px-4">{appointment.vet_id}</td>
+                    <td className="py-3 px-4">
+                      {new Date(appointment.appointment_date).toLocaleString()}
+                    </td>
+                    <td className="py-3 px-4">{appointment.status}</td>
+                    <td className="py-3 px-4">{appointment.notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="mt-4 text-gray-600">No appointments available.</p>
+          )}
+        </div>
+      )}
     </div>
-    
   );
 };
 
