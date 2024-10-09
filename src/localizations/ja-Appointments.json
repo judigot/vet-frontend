@@ -1,10 +1,9 @@
 {
-  "MyPage": "マイページ",
-  "Lost Animals": "迷子の掲示板",
-  "Looking for Foster": "里親探し",
-  "Pets Record Table": "うちの子記録",
-  "Total Appointment": "今日のアポ",
-  "New Appointment": "新規アポ",
-  "Done Appointment": "完了済みアポ",
-  "Todays medical records": "今日のカルテ"
+  "appointments": "予約管理",
+  "createAppointment": "",
+  "new_appointment": "新規登録",
+  "appointment_date": "予約日時",
+  "notes": "備考",
+  "close": "閉じる",
+  "save_changes": "保存"
 }
