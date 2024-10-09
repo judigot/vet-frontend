@@ -5,11 +5,14 @@ import Login from '@/components/Login';
 import Register from '@/components/Register';
 import Appointments from '@/components/Appointments';
 import Reminders from '@/components/Reminders';
+import OwnerMyPage from '@/components/OwnerMyPage';
+import VetMyPage from '@/components/VetMyPage';
 import { useTranslation } from 'react-i18next';
 import {
   useApplicationSettingsStore,
   Languages,
 } from '@/useApplicationSettingsStore';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const pages = {
@@ -17,6 +20,8 @@ const pages = {
   register: Register,
   appointments: Appointments,
   reminders: Reminders,
+  ownermypage: OwnerMyPage,
+  vetmypage: VetMyPage,
 } as const;
 
 type PageKey = keyof typeof pages;
