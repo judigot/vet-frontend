@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const app = express();
 const PORT = (process.env.PORT ?? 5000).toString();
