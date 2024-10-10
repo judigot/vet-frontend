@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import '@/styles/scss/main.scss';
 import i18n from 'i18next';
+import Title from '@/components/Title';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
 import Appointments from '@/components/Appointments';
@@ -17,6 +18,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const pages = {
+  title: Title,
   login: Login,
   register: Register,
   appointments: Appointments,
