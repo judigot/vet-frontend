@@ -21,6 +21,7 @@ const VetMyPage: React.FC = () => {
                     <Dropdown.Item href="#/action-3">Log out</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
+            
             <br />
 
             <CardGroup>

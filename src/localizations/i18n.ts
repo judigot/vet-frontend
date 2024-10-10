@@ -4,17 +4,19 @@ import en from '@/localizations/en.json';
 import enAppointments from '@/localizations/en-Appointments.json';
 import enReminders from '@/localizations/en-Reminders.json';
 import enMyPage from '@/localizations/en-MyPage.json';
+import enProfileSetting from '@/localizations/en-ProfileSetting.json';
 import ja from '@/localizations/ja.json';
 import jaAppointments from '@/localizations/ja-Appointments.json';
 import jaReminders from '@/localizations/ja-Reminders.json';
 import jaMyPage from '@/localizations/ja-MyPage.json';
+import jaProfileSetting from '@/localizations/ja-ProfileSetting.json';
 
 const resources = {
   English: {
-    translation: {...en, ...enAppointments, ...enReminders, ...enMyPage},
+    translation: {...en, ...enAppointments, ...enReminders, ...enMyPage, ...enProfileSetting},
   },
   Japanese: {
-    translation: {...ja, ...jaAppointments, ...jaReminders, ...jaMyPage},
+    translation: {...ja, ...jaAppointments, ...jaReminders, ...jaMyPage, ...jaProfileSetting},
   },
 };
 
