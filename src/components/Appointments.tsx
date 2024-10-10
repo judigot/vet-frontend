@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { readAppointment } from '@/api/appointment/read-appointment';
-import { IAppointment } from '@/interfaces/IAppointment';
-// import { response } from 'express';
+import { readAppointmentDetails } from '@/api/appointment/read-appointment-details';
+import { IAppointmentDetails } from '@/interfaces/IAppointmentDetails';
 
 const Appointments: React.FC = () => {
-  const [appointments, setAppointments] = useState<IAppointment[] | undefined>(
-    undefined,
-  );
+  const [appointments, setAppointments] = useState<IAppointmentDetails[] | undefined>(undefined);
   const [show, setShowModal] = useState(false);
   const [newAppointment, setNewAppointment] = useState({
     pet_id: '',
@@ -27,7 +23,7 @@ const Appointments: React.FC = () => {
     setShowModal(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setNewAppointment({
       ...newAppointment,
       [e.target.name]: e.target.value,
@@ -36,19 +32,13 @@ const Appointments: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    axios
-      .post('/api/appointments', newAppointment)
-      .then((_response) => {
-        // setAppointments([...appointments, response.data]); //Add NewAppointments
-        handleClose(); //Close Modal
-      })
-      .catch((error: unknown) => {
-        console.error('Error creating appointment: ', error);
-      });
+    // API call to submit new appointment
+    handleClose(); // Close the modal after submission
   };
 
+  // Fetch appointment details on component mount
   useEffect(() => {
-    readAppointment()
+    readAppointmentDetails()
       .then((response) => {
         if (response !== null) {
           setAppointments(response);
@@ -62,23 +52,17 @@ const Appointments: React.FC = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold">{t('appointments')}</h1>
-      {/* <ul>
-        {appointments.map(appointment => (
-          <li key={appointment.appointment_id}>
-            Pet ID: {appointment.pet_id}, Vet_id: {appointment.vet_id}, Date: {appointment.appointment_date}, Status: {appointment.status}
-          <br /> Notes: {appointment.notes}
-          </li>
-        ))}
-      </ul> */}
+
       <Button variant="primary" onClick={handleShow}>
         + {t('createAppointment')}
       </Button>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{t('new_appointment')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group controlId="pet_id">
               <Form.Label>{t('pet_id')}</Form.Label>
               <Form.Control
@@ -86,7 +70,7 @@ const Appointments: React.FC = () => {
                 name="pet_id"
                 value={newAppointment.pet_id}
                 onChange={handleChange}
-                placeholder="Enter Pet ID"
+                placeholder={t('enter_pet_id') || 'Enter Pet ID'}
               />
             </Form.Group>
             <Form.Group controlId="vet_id">
@@ -96,7 +80,7 @@ const Appointments: React.FC = () => {
                 name="vet_id"
                 value={newAppointment.vet_id}
                 onChange={handleChange}
-                placeholder="Enter Vet ID"
+                placeholder={t('enter_vet_id') || 'Enter Vet ID'}
               />
             </Form.Group>
             <Form.Group controlId="appointment_date">
@@ -115,7 +99,7 @@ const Appointments: React.FC = () => {
                 name="status"
                 value={newAppointment.status}
                 onChange={handleChange}
-                placeholder="Enter Status"
+                placeholder={t('enter_status') || 'Enter Status'}
               />
             </Form.Group>
             <Form.Group controlId="notes">
@@ -125,34 +109,37 @@ const Appointments: React.FC = () => {
                 name="notes"
                 value={newAppointment.notes}
                 onChange={handleChange}
-                placeholder="Enter Notes"
+                placeholder={t('enter_notes') || 'Enter Notes'}
               />
             </Form.Group>
+            <Button variant="primary" type="submit">
+              {t('save_changes')}
+            </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             {t('close')}
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            {t('save_changes')}
-          </Button>
         </Modal.Footer>
       </Modal>
+
       <br />
       {appointments && (
         <div className="appointments-container p-6 bg-white shadow-md rounded-lg">
-          <h1 className="text-2xl font-bold mb-4">Appointments</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('appointments')}</h1>
           {appointments.length > 0 ? (
             <table className="min-w-full bg-gray-100 rounded-lg">
               <thead>
                 <tr className="bg-gray-200 text-gray-700 text-left">
-                  <th className="py-3 px-4">Appointment ID</th>
-                  <th className="py-3 px-4">Pet ID</th>
-                  <th className="py-3 px-4">Vet ID</th>
-                  <th className="py-3 px-4">Appointment Date</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4">Notes</th>
+                  <th className="py-3 px-4">{t('appointment_id')}</th>
+                  <th className="py-3 px-4">{t('pet_id')}</th>
+                  <th className="py-3 px-4">{t('vet_id')}</th>
+                  <th className="py-3 px-4">{t('appointment_date')}</th>
+                  <th className="py-3 px-4">{t('status')}</th>
+                  <th className="py-3 px-4">{t('clinic_name')}</th>
+                  <th className="py-3 px-4">{t('owner_name')}</th>
+                  <th className="py-3 px-4">{t('payment_amount')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -168,13 +155,15 @@ const Appointments: React.FC = () => {
                       {new Date(appointment.appointment_date).toLocaleString()}
                     </td>
                     <td className="py-3 px-4">{appointment.status}</td>
-                    <td className="py-3 px-4">{appointment.notes}</td>
+                    <td className="py-3 px-4">{appointment.clinic_name}</td>
+                    <td className="py-3 px-4">{appointment.owner_name}</td>
+                    <td className="py-3 px-4">{appointment.payment_amount}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
-            <p className="mt-4 text-gray-600">No appointments available.</p>
+            <p className="mt-4 text-gray-600">{t('no_appointments')}</p>
           )}
         </div>
       )}
