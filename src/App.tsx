@@ -9,6 +9,7 @@ import Reminders from '@/components/Reminders';
 import OwnerMyPage from '@/components/OwnerMyPage';
 import VetMyPage from '@/components/VetMyPage';
 import OwnerProfileSetting from '@/components/OwnerProfileSetting';
+import PetsProfileSetting from '@/components/PetsProfileSetting';
 import { useTranslation } from 'react-i18next';
 import {
   useApplicationSettingsStore,
@@ -26,6 +27,7 @@ const pages = {
   ownermypage: OwnerMyPage,
   vetmypage: VetMyPage,
   ownerprofilesetting: OwnerProfileSetting,
+  petsprofilesetting: PetsProfileSetting,
 } as const;
 
 type PageKey = keyof typeof pages;
