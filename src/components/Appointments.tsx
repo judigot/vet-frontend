@@ -1,16 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { readAppointment } from '@/api/appointment/read-appointment';
-import { IAppointment } from '@/interfaces/IAppointment';
-// import { response } from 'express';
+import { useAppointmentData } from '@/api/appointment/read-appointment';
+import { useAuthStore } from '@/useAuthStore';
 
-const Appointments: React.FC = () => {
-  const [appointments, setAppointments] = useState<IAppointment[] | undefined>(
-    undefined,
-  );
+function Appointments() {
+  const { user } = useAuthStore();
+  const {
+    data: appointments,
+    isLoading,
+    isError,
+  } = useAppointmentData({
+    //==========BEHAVIOR==========//
+    gcTime: 5 * 60000, // 5 minutes cache time
+    refetchOnWindowFocus: true,
+    refetchInterval: 1 * 1000,
+    staleTime: 1 * 1000,
+    //==========BEHAVIOR==========//
+  });
+
   const [show, setShowModal] = useState(false);
+
   const [newAppointment, setNewAppointment] = useState({
     pet_id: '',
     vet_id: '',
@@ -47,29 +58,18 @@ const Appointments: React.FC = () => {
       });
   };
 
-  useEffect(() => {
-    readAppointment()
-      .then((response) => {
-        if (response !== null) {
-          setAppointments(response);
-        }
-      })
-      .catch((error: unknown) => {
-        console.error('Error fetching appointments: ', error);
-      });
-  }, []);
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Error</p>;
+  }
 
   return (
     <div>
+      <h1>{JSON.stringify(user, null, 4)}</h1>
       <h1 className="text-3xl font-bold">{t('appointments')}</h1>
-      {/* <ul>
-        {appointments.map(appointment => (
-          <li key={appointment.appointment_id}>
-            Pet ID: {appointment.pet_id}, Vet_id: {appointment.vet_id}, Date: {appointment.appointment_date}, Status: {appointment.status}
-          <br /> Notes: {appointment.notes}
-          </li>
-        ))}
-      </ul> */}
       <Button variant="primary" onClick={handleShow}>
         + {t('createAppointment')}
       </Button>
@@ -140,10 +140,10 @@ const Appointments: React.FC = () => {
         </Modal.Footer>
       </Modal>
       <br />
-      {appointments && (
+      {
         <div className="appointments-container p-6 bg-white shadow-md rounded-lg">
           <h1 className="text-2xl font-bold mb-4">Appointments</h1>
-          {appointments.length > 0 ? (
+          {appointments && appointments.length > 0 ? (
             <table className="min-w-full bg-gray-100 rounded-lg">
               <thead>
                 <tr className="bg-gray-200 text-gray-700 text-left">
@@ -177,9 +177,9 @@ const Appointments: React.FC = () => {
             <p className="mt-4 text-gray-600">No appointments available.</p>
           )}
         </div>
-      )}
+      }
     </div>
   );
-};
+}
 
 export default Appointments;

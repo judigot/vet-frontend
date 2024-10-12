@@ -1,3 +1,7 @@
+import { FALLBACK_URL } from '@/api/customFetch';
+import { IUserPayload } from '@/utils/auth/Authorization';
+import { useAuthStore } from '@/useAuthStore';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,11 +10,33 @@ function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const { login } = useAuthStore();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Reset form
-    setEmail('');
-    setPassword('');
+    axios
+      .post(`${FALLBACK_URL}/login`, { email, password })
+      .then(
+        ({
+          data: { user, accessToken },
+          status,
+          statusText,
+        }: {
+          data: {
+            accessToken: string;
+            user: IUserPayload;
+          };
+          status: number;
+          statusText: string;
+        }) => {
+          if (status === 200 && statusText === 'OK') {
+            login({ user, accessToken });
+          }
+        },
+      )
+      .catch((error: unknown) => {
+        console.error('Error logging in: ', error);
+      });
   };
 
   return (
