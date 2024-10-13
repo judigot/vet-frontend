@@ -16,7 +16,7 @@ export default function AxiosInterceptor() {
     },
 
     (error) => {
-      return Promise.reject(new Error(`Response error: ${String(error)}'}`));
+      throw error;
     },
   );
   axios.interceptors.response.use(
@@ -25,7 +25,7 @@ export default function AxiosInterceptor() {
     },
 
     (error) => {
-      return Promise.reject(new Error(`Response error: ${String(error)}'}`));
+      throw error;
     },
   );
 }
