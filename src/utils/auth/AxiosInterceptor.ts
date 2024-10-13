@@ -1,11 +1,14 @@
 import axios from 'axios';
 
+const BASE_API_URL = 'http://localhost:8000/api';
+
 export default function AxiosInterceptor() {
   axios.interceptors.request.use(
     (config) => {
       const accessToken: string = localStorage.getItem('accessToken') ?? '';
       // const accessToken: string = getToken("accessToken");
 
+      config.baseURL = BASE_API_URL;
       config.headers['Content-Type'] = 'application/json';
       config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : ``;
 

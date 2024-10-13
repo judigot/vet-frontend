@@ -1,4 +1,3 @@
-import { FALLBACK_URL } from '@/api/customFetch';
 import { IUserPayload } from '@/utils/auth/Authorization';
 import { useAuthStore } from '@/useAuthStore';
 import axios from 'axios';
@@ -15,7 +14,7 @@ function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     axios
-      .post(`${FALLBACK_URL}/login`, { email, password })
+      .post(`/login`, { email, password })
       .then(
         ({
           data: { user, accessToken },
