@@ -1,4 +1,3 @@
-import { IUserPayload } from '@/utils/auth/Authorization';
 import { useAuthStore } from '@/useAuthStore';
 import axios from 'axios';
 import React, { useState } from 'react';
@@ -11,31 +10,32 @@ function Login() {
 
   const { login } = useAuthStore();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    axios
-      .post(`/login`, { email, password })
-      .then(
-        ({
-          data: { user, accessToken },
-          status,
-          statusText,
-        }: {
-          data: {
-            accessToken: string;
-            user: IUserPayload;
-          };
-          status: number;
-          statusText: string;
-        }) => {
-          if (status === 200 && statusText === 'OK') {
-            login({ user, accessToken });
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined,
+  );
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMessage(undefined);
+    void (async () => {
+      try {
+        await login({ email, password });
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          const status = error.response?.status;
+
+          // Check for 401 Unauthorized (Invalid credentials)
+          if (status === 401) {
+            setErrorMessage('Incorrect password.');
           }
-        },
-      )
-      .catch((error: unknown) => {
-        console.error('Error logging in: ', error);
-      });
+
+          // Check for 404 Not Found (User not found)
+          if (status === 404) {
+            setErrorMessage('User not found.');
+          }
+        }
+      }
+    })();
   };
 
   return (
@@ -75,6 +75,7 @@ function Login() {
               placeholder={t('enterPassword')}
             />
           </div>
+          <p className="text-red-500 text-center">{errorMessage}</p>
           <button
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded w-full hover:bg-blue-600"
