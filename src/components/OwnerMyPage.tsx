@@ -3,16 +3,20 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Card from 'react-bootstrap/Card';
 import { useTranslation } from 'react-i18next';
+import { useAuthStore } from '@/useAuthStore';
 
 
 const OwnerMyPage: React.FC = () => {
+
+    const {user} = useAuthStore();
+
     const { t } = useTranslation(); // Translation hook
   return (
     <div>
       <h1 className='text-3xl font-bold'>{t('MyPage')}</h1>
       <Dropdown>
         <Dropdown.Toggle variant="light" size="lg" id="dropdown-basic">
-          User Name
+          {JSON.stringify(user, null, 4)}
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
