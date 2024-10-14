@@ -7,6 +7,7 @@ import { useAuthStore } from '@/useAuthStore';
 
 function Appointments() {
   const { user } = useAuthStore();
+
   const {
     data: appointments,
     isLoading,
@@ -58,6 +59,8 @@ function Appointments() {
       });
   };
 
+  if (user === undefined) return;
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -68,7 +71,7 @@ function Appointments() {
 
   return (
     <div>
-      <h1>{JSON.stringify(user, null, 4)}</h1>
+      <h1>{user.first_name}</h1>
       <h1 className="text-3xl font-bold">{t('appointments')}</h1>
       <Button variant="primary" onClick={handleShow}>
         + {t('createAppointment')}

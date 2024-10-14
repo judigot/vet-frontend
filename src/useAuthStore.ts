@@ -4,25 +4,15 @@ import axios from 'axios';
 
 export interface IAuthContext {
   user: IUserPayload | undefined;
-  isAuthenticated: boolean;
-  authorize: (isAuthenticated: boolean) => void;
+  setUser: (user: IUserPayload) => void;
   login: (credentials: { email: string; password: string }) => Promise<unknown>; // Updated login signature
-  logout: () => void;
+  logout: () => Promise<unknown>;
 }
-
-// interface IError {
-//   status: number;
-//   message: string;
-//   error_code: string;
-// }
 
 export const useAuthStore = create<IAuthContext>()((set) => ({
   user: undefined,
-  isAuthenticated: false,
-  authorize: (isAuthenticated: boolean) => {
-    if (typeof isAuthenticated === 'boolean') {
-      set({ isAuthenticated });
-    }
+  setUser: (user: IUserPayload) => {
+    set({ user });
   },
   login: async ({ email, password }: { email: string; password: string }) => {
     try {
@@ -37,7 +27,7 @@ export const useAuthStore = create<IAuthContext>()((set) => ({
         statusText: string;
       } = await axios.post('/login', { email, password });
 
-      set({ user, isAuthenticated: true });
+      set({ user });
       localStorage.setItem('accessToken', accessToken);
       window.location.reload();
     } catch (error: unknown) {
@@ -46,11 +36,12 @@ export const useAuthStore = create<IAuthContext>()((set) => ({
       }
     }
   },
-  logout: () => {
+  logout: async () => {
     set({
       user: undefined,
-      isAuthenticated: false,
     });
+    await axios.post('/logout');
     localStorage.removeItem('accessToken');
+    window.location.reload();
   },
 }));
