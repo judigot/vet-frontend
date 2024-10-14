@@ -3,11 +3,11 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 import '@/styles/scss/main.scss';
 import { QueryClient } from '@tanstack/react-query';
-import { IAuthContext } from '@/useAuthStore';
+import { IUserPayload } from '@/utils/auth/Authorization';
 
 export interface IRouterContext {
-  auth: IAuthContext;
   queryClient: QueryClient;
+  auth: Promise<IUserPayload | false>;
 }
 
 export const Route = createRootRouteWithContext<IRouterContext>()({

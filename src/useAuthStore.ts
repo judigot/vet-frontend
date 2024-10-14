@@ -4,8 +4,7 @@ import axios from 'axios';
 
 export interface IAuthContext {
   user: IUserPayload | undefined;
-  isAuthenticated: boolean;
-  authorize: (isAuthenticated: boolean) => void;
+  setUser: (user: IUserPayload) => void;
   login: (credentials: { email: string; password: string }) => Promise<unknown>; // Updated login signature
   logout: () => void;
 }
@@ -18,11 +17,8 @@ export interface IAuthContext {
 
 export const useAuthStore = create<IAuthContext>()((set) => ({
   user: undefined,
-  isAuthenticated: false,
-  authorize: (isAuthenticated: boolean) => {
-    if (typeof isAuthenticated === 'boolean') {
-      set({ isAuthenticated });
-    }
+  setUser: (user: IUserPayload) => {
+    set({ user });
   },
   login: async ({ email, password }: { email: string; password: string }) => {
     try {
@@ -37,7 +33,7 @@ export const useAuthStore = create<IAuthContext>()((set) => ({
         statusText: string;
       } = await axios.post('/login', { email, password });
 
-      set({ user, isAuthenticated: true });
+      set({ user });
       localStorage.setItem('accessToken', accessToken);
       window.location.reload();
     } catch (error: unknown) {
@@ -49,8 +45,8 @@ export const useAuthStore = create<IAuthContext>()((set) => ({
   logout: () => {
     set({
       user: undefined,
-      isAuthenticated: false,
     });
     localStorage.removeItem('accessToken');
+    window.location.reload();
   },
 }));
