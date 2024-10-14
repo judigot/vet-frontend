@@ -6,14 +6,8 @@ export interface IAuthContext {
   user: IUserPayload | undefined;
   setUser: (user: IUserPayload) => void;
   login: (credentials: { email: string; password: string }) => Promise<unknown>; // Updated login signature
-  logout: () => void;
+  logout: () => Promise<unknown>;
 }
-
-// interface IError {
-//   status: number;
-//   message: string;
-//   error_code: string;
-// }
 
 export const useAuthStore = create<IAuthContext>()((set) => ({
   user: undefined,
@@ -42,10 +36,11 @@ export const useAuthStore = create<IAuthContext>()((set) => ({
       }
     }
   },
-  logout: () => {
+  logout: async () => {
     set({
       user: undefined,
     });
+    await axios.post('/logout');
     localStorage.removeItem('accessToken');
     window.location.reload();
   },

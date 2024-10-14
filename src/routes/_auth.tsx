@@ -30,13 +30,11 @@ export const Route = createFileRoute('/_auth')({
 function AuthRoute() {
   const user: IUserPayload = Route.useLoaderData();
 
-  const { setUser } = useAuthStore();
+  const { setUser, logout } = useAuthStore();
 
   useEffect(() => {
     setUser(user);
   }, [setUser, user]);
-
-  const { logout } = useAuthStore();
 
   const handleLogout = () => {
     logout();
