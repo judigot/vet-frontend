@@ -5,8 +5,8 @@ import axios from 'axios';
 export interface IAuthContext {
   user: IUserPayload | undefined;
   setUser: (user: IUserPayload) => void;
-  login: (credentials: { email: string; password: string }) => Promise<unknown>; // Updated login signature
-  logout: () => Promise<unknown>;
+  login: (credentials: { email: string; password: string }) => Promise<unknown>;
+  logout: () => void;
 }
 
 export const useAuthStore = create<IAuthContext>()((set) => ({
@@ -36,11 +36,13 @@ export const useAuthStore = create<IAuthContext>()((set) => ({
       }
     }
   },
-  logout: async () => {
+  logout: () => {
     set({
       user: undefined,
     });
-    await axios.post('/logout');
+    void (async () => {
+      await axios.post('/logout');
+    })();
     localStorage.removeItem('accessToken');
     window.location.reload();
   },
