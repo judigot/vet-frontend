@@ -41,9 +41,10 @@ export const useAuthStore = create<IAuthContext>()((set) => ({
       user: undefined,
     });
     void (async () => {
-      await axios.post('/logout');
+      await axios.post('/logout').then(() => {
+        localStorage.removeItem('accessToken');
+        window.location.reload();
+      });
     })();
-    localStorage.removeItem('accessToken');
-    window.location.reload();
   },
 }));
