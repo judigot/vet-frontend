@@ -1,16 +1,17 @@
 import { useAuthStore } from '@/useAuthStore';
-import Authorization from '@/utils/auth/Authorization';
+import { IUserPayload } from '@/utils/auth/Authorization';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { useEffect } from 'react';
 
 /*****************************************************************
  * MIDDLEWARE FOR ALL AUTHENTICATED ROUTES (_auth.routeName.tsx) *
  *****************************************************************/
 
 export const Route = createFileRoute('/_auth')({
-  beforeLoad: async ({ location }) => {
-    const isAuthenticated = await Authorization();
+  beforeLoad: async ({ context }) => {
+    const user = await context.auth;
 
-    if (isAuthenticated === false) {
+    if (user === false) {
       return redirect({
         to: '/login',
         search: {
@@ -19,11 +20,22 @@ export const Route = createFileRoute('/_auth')({
       });
     }
   },
+  loader: async ({ context }) => {
+    const user = await context.auth;
+    return user;
+  },
   component: AuthRoute,
 });
 
 function AuthRoute() {
-  const { logout } = useAuthStore();
+  const user: IUserPayload = Route.useLoaderData();
+
+  const { setUser, logout } = useAuthStore();
+
+  useEffect(() => {
+    setUser(user);
+  }, [setUser, user]);
+
   const handleLogout = () => {
     logout();
   };

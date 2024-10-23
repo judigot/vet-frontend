@@ -20,7 +20,7 @@ async function Authorization(): Promise<IUserPayload | false> {
   }
 
   try {
-    const { data } = await axios.get<IUserPayload>(`/authorize`, {
+    const { data } = await axios.get<IUserPayload>(`/user`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -34,6 +34,7 @@ async function Authorization(): Promise<IUserPayload | false> {
         // Handle specific status codes
         switch (statusCode) {
           case 401:
+            localStorage.removeItem('accessToken');
             console.warn('Unauthorized - possibly expired or invalid token');
             break;
           case 403:
