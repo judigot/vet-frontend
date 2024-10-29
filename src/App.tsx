@@ -1,22 +1,33 @@
 import { useState } from 'react';
 import '@/styles/scss/main.scss';
 import i18n from 'i18next';
+import Title from '@/components/Title';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
 import Appointments from '@/components/Appointments';
 import Reminders from '@/components/Reminders';
+import OwnerMyPage from '@/components/OwnerMyPage';
+import VetMyPage from '@/components/VetMyPage';
+import OwnerProfileSetting from '@/components/OwnerProfileSetting';
+import PetsProfileSetting from '@/components/PetsProfileSetting';
 import { useTranslation } from 'react-i18next';
 import {
   useApplicationSettingsStore,
   Languages,
 } from '@/useApplicationSettingsStore';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const pages = {
+  title: Title,
   login: Login,
   register: Register,
   appointments: Appointments,
   reminders: Reminders,
+  ownermypage: OwnerMyPage,
+  vetmypage: VetMyPage,
+  ownerprofilesetting: OwnerProfileSetting,
+  petsprofilesetting: PetsProfileSetting,
 } as const;
 
 type PageKey = keyof typeof pages;
@@ -91,7 +102,7 @@ function App() {
         </div>
       </div>
 
-      <div className="p-8 text-center">
+      <div className="p-8">
         <CurrentPageComponent />
       </div>
     </div>

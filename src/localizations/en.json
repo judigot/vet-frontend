@@ -12,7 +12,5 @@
   "submit": "Submit",
   "pages": "Pages",
   "selectLanguage": "Select Language",
-  "passwordMismatch": "Passwords do not match!",
-  "appointments": "Appointments",
-  "reminders": "Reminders" 
+  "passwordMismatch": "Passwords do not match!"
 }
