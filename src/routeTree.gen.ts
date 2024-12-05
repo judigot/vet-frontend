@@ -14,6 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthProfileIndexImport } from './routes/_auth.profile/index'
+import { Route as AuthMypageIndexImport } from './routes/_auth.mypage/index'
 import { Route as AuthAppointmentsIndexImport } from './routes/_auth.appointments/index'
 
 // Create/Update Routes
@@ -31,6 +33,16 @@ const AuthRoute = AuthImport.update({
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthProfileIndexRoute = AuthProfileIndexImport.update({
+  path: '/profile/',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthMypageIndexRoute = AuthMypageIndexImport.update({
+  path: '/mypage/',
+  getParentRoute: () => AuthRoute,
 } as any)
 
 const AuthAppointmentsIndexRoute = AuthAppointmentsIndexImport.update({
@@ -70,6 +82,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAppointmentsIndexImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/mypage/': {
+      id: '/_auth/mypage/'
+      path: '/mypage'
+      fullPath: '/mypage'
+      preLoaderRoute: typeof AuthMypageIndexImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/profile/': {
+      id: '/_auth/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthProfileIndexImport
+      parentRoute: typeof AuthImport
+    }
   }
 }
 
@@ -77,10 +103,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthRouteChildren {
   AuthAppointmentsIndexRoute: typeof AuthAppointmentsIndexRoute
+  AuthMypageIndexRoute: typeof AuthMypageIndexRoute
+  AuthProfileIndexRoute: typeof AuthProfileIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthAppointmentsIndexRoute: AuthAppointmentsIndexRoute,
+  AuthMypageIndexRoute: AuthMypageIndexRoute,
+  AuthProfileIndexRoute: AuthProfileIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -90,6 +120,8 @@ export interface FileRoutesByFullPath {
   '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/appointments': typeof AuthAppointmentsIndexRoute
+  '/mypage': typeof AuthMypageIndexRoute
+  '/profile': typeof AuthProfileIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -97,6 +129,8 @@ export interface FileRoutesByTo {
   '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/appointments': typeof AuthAppointmentsIndexRoute
+  '/mypage': typeof AuthMypageIndexRoute
+  '/profile': typeof AuthProfileIndexRoute
 }
 
 export interface FileRoutesById {
@@ -105,14 +139,23 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/_auth/appointments/': typeof AuthAppointmentsIndexRoute
+  '/_auth/mypage/': typeof AuthMypageIndexRoute
+  '/_auth/profile/': typeof AuthProfileIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/appointments'
+  fullPaths: '/' | '' | '/login' | '/appointments' | '/mypage' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/appointments'
-  id: '__root__' | '/' | '/_auth' | '/login' | '/_auth/appointments/'
+  to: '/' | '' | '/login' | '/appointments' | '/mypage' | '/profile'
+  id:
+    | '__root__'
+    | '/'
+    | '/_auth'
+    | '/login'
+    | '/_auth/appointments/'
+    | '/_auth/mypage/'
+    | '/_auth/profile/'
   fileRoutesById: FileRoutesById
 }
 
@@ -151,7 +194,9 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/appointments/"
+        "/_auth/appointments/",
+        "/_auth/mypage/",
+        "/_auth/profile/"
       ]
     },
     "/login": {
@@ -159,6 +204,14 @@ export const routeTree = rootRoute
     },
     "/_auth/appointments/": {
       "filePath": "_auth.appointments/index.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/mypage/": {
+      "filePath": "_auth.mypage/index.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/profile/": {
+      "filePath": "_auth.profile/index.tsx",
       "parent": "/_auth"
     }
   }
