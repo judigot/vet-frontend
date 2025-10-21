@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -35,9 +35,9 @@ app.get('/', (_req, res) => {
   res.sendFile(publicDirectory);
 });
 
-app.get('/api', (_req: Request, res: Response) =>
-  res.json({ message: path.join(publicDirectory, 'index.html') }),
-);
+// app.get('/api', (_req: Request, res: Response) =>
+//   res.json({ message: path.join(publicDirectory, 'index.html') }),
+// );
 
 // Start server
 app.listen(PORT, () => {
