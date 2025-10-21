@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next';
 
 const PetsProfileSetting: React.FC = () => {
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => { setShow(false); };
+    const handleShow = () => { setShow(true); };
 
     const { t } = useTranslation(); // Translation hook
 

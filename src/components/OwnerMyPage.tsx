@@ -4,6 +4,7 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import Card from 'react-bootstrap/Card';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { useAuthStore } from '@/useAuthStore';
 
 
 interface User {
@@ -15,6 +16,9 @@ interface User {
 const OwnerMyPage: React.FC = () => {
   
     const [data, setData] = useState<User[]>([]);
+
+    const {user} = useAuthStore();
+
     const { t } = useTranslation(); // Translation hook
 
     useEffect(() => {

@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 
 // https://vitejs.dev/config/
 import path from 'path';
@@ -16,5 +17,5 @@ export default defineConfig({
   },
   /*</alias>*/ /*<devPort>*/ server: { port: 3000 },
   /*</devPort>*/ /* <basepath> */ base: './' /* Resolve asset paths after building */ /* </basepath> */,
-  plugins: [react(), tsconfigPaths()],
+  plugins: [react(), tsconfigPaths(), TanStackRouterVite()],
 });

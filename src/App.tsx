@@ -15,8 +15,8 @@ import {
   useApplicationSettingsStore,
   Languages,
 } from '@/useApplicationSettingsStore';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const pages = {
   title: Title,
@@ -102,7 +102,7 @@ function App() {
         </div>
       </div>
 
-      <div className="p-8 text-center">
+      <div className="p-8">
         <CurrentPageComponent />
       </div>
     </div>

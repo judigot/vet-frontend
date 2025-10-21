@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-
-import '@/localizations/i18n'; // Import the i18n configuration
+import HelloPetApp from '@/HelloPetApp';
 
 const rootElement = document.getElementById('root');
 
-if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  );
+if (!rootElement) {
+  throw new Error('There was an error rendering React app.');
 }
+
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>
+    <HelloPetApp />
+  </React.StrictMode>,
+);
